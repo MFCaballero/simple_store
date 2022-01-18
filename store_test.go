@@ -1,6 +1,7 @@
-package store
+package main
 
 import (
+	"reflect"
 	"testing"
 	"time"
 )
@@ -14,7 +15,7 @@ func TestStore_IncidentStatus(t *testing.T) {
 		want    string
 		wantErr bool
 	}{
-		{"success", "2022-01-08 09:00", "2022-01-19 11:00", `{"open_cases":2,"closed_cases":2,"average_solution":96.18,"maximun_solution":241}`, false},
+		{"success", "2022-01-08 09:00", "2022-01-19 11:00", `{"open_cases":2,"closed_cases":2,"average_solution":96.18,"maximun_solution":242}`, false},
 	}
 
 	for _, tt := range tests {
@@ -27,7 +28,7 @@ func TestStore_IncidentStatus(t *testing.T) {
 				t.Errorf("Store.IncidentStatus() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if got != tt.want {
+			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Store.IncidentStatus() = %v, want %v", got, tt.want)
 			}
 		})

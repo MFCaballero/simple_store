@@ -5,7 +5,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/MFCaballero/simple_store.git/store"
 	uuid "github.com/satori/go.uuid"
 	"github.com/urfave/cli"
 )
@@ -54,7 +53,7 @@ var incidentStatusCommand = cli.Command{
 	},
 }
 
-var Store = store.NewStore()
+var newStore = NewStore()
 
 func main() {
 	app := cli.NewApp()
@@ -74,7 +73,7 @@ func main() {
 
 func cmdAddIncident(c *cli.Context) error {
 	description := c.String("d")
-	result, err := Store.AddIncident(description)
+	result, err := newStore.AddIncident(description)
 	if err != nil {
 		return cli.NewExitError(err, 1)
 	}
@@ -88,7 +87,7 @@ func cmdSolveIncident(c *cli.Context) error {
 	if uuidErr != nil {
 		return cli.NewExitError(uuidErr, 1)
 	}
-	result, resultErr := Store.SolveIncident(uuidFromString)
+	result, resultErr := newStore.SolveIncident(uuidFromString)
 	if resultErr != nil {
 		return cli.NewExitError(resultErr, 1)
 	}
@@ -104,7 +103,7 @@ func cmdIncidentStatus(c *cli.Context) error {
 	if err != nil {
 		panic(err)
 	}
-	result, err := Store.IncidentStatus(parsedDate1, parsedDate2)
+	result, err := newStore.IncidentStatus(parsedDate1, parsedDate2)
 	if err != nil {
 		panic(err)
 	}
